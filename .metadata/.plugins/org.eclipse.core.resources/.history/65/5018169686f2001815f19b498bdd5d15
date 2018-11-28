@@ -1,0 +1,43 @@
+package de.florian_timm.gastroparser;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.pdfbox.cos.COSDocument;
+import org.apache.pdfbox.io.RandomAccessFile;
+import org.apache.pdfbox.pdfparser.PDFParser;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
+
+public class Parser {
+	final static Pattern PT_ARTIKEL = 
+			Pattern.compile("\\h{2}(\\d{6}\\.\\d)\\h(\\d{13})\\h+(.{0,45})([A-Z]{2})\\h+(\\d+,\\d{3})\\h+(\\d+,?\\d*)\\h*(\\d+,\\d{2})\\h*(\\d+)\\h+(\\d+,\\d{2})\\h+([AB])\\h+(\\d+,\\d{3})(\\h{5}\\w)?");
+	
+	public Parser(File file) {
+		try {
+			System.out.print("Test");
+			RandomAccessFile raf = new RandomAccessFile (file, "r");
+			PDFParser pdfp = new PDFParser(raf);
+			pdfp.parse();
+            COSDocument cosDoc = pdfp.getDocument();
+            PDFTextStripper pdfStripper = new PDFTextStripper();
+            PDDocument pdDoc = new PDDocument(cosDoc);
+            String parsedText = pdfStripper.getText(pdDoc);
+            //System.out.println(parsedText);
+            
+            Matcher m = PT_ARTIKEL.matcher(parsedText);
+            
+            while (m.find()) {
+                String s = m.group(3);
+                System.out.println(s);
+            }
+            
+            
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}

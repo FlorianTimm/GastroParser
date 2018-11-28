@@ -1,0 +1,7 @@
+package de.florian_timm.gastroparser;
+
+import javax.swing.JDialog;
+
+public class TableDialog extends JDialog {
+
+}

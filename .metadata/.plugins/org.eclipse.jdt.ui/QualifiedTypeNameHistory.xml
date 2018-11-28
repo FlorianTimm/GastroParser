@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="java.awt.event.MouseAdapter"/>
+    <fullyQualifiedTypeName name="java.awt.event.MouseEvent"/>
+    <fullyQualifiedTypeName name="java.awt.Point"/>
+    <fullyQualifiedTypeName name="de.florian_timm.aufgabenPlaner.entity.Prioritaet"/>
+    <fullyQualifiedTypeName name="java.util.Arrays"/>
+    <fullyQualifiedTypeName name="de.florian_timm.aufgabenPlaner.entity.Person"/>
+    <fullyQualifiedTypeName name="java.awt.GridBagLayout"/>
+    <fullyQualifiedTypeName name="de.florian_timm.aufgabenPlaner.gui.PersonGUI"/>
+    <fullyQualifiedTypeName name="junit.framework.TestCase"/>
+    <fullyQualifiedTypeName name="org.junit.Before"/>
+    <fullyQualifiedTypeName name="java.util.LinkedList"/>
+    <fullyQualifiedTypeName name="junit.framework.TestResult"/>
+    <fullyQualifiedTypeName name="org.junit.runner.RunWith"/>
+    <fullyQualifiedTypeName name="org.junit.experimental.theories.Theories"/>
+    <fullyQualifiedTypeName name="org.junit.experimental.theories.DataPoint"/>
+    <fullyQualifiedTypeName name="org.junit.experimental.theories.suppliers.TestedOn"/>
+    <fullyQualifiedTypeName name="org.junit.experimental.theories.Theory"/>
+    <fullyQualifiedTypeName name="java.lang.Math"/>
+    <fullyQualifiedTypeName name="java.lang.Double"/>
+    <fullyQualifiedTypeName name="javax.swing.JFileChooser"/>
+    <fullyQualifiedTypeName name="javax.swing.JButton"/>
+    <fullyQualifiedTypeName name="javax.swing.UIManager"/>
+    <fullyQualifiedTypeName name="org.apache.pdfbox.pdfparser.PDFParser"/>
+    <fullyQualifiedTypeName name="org.apache.pdfbox.io.RandomAccessFile"/>
+    <fullyQualifiedTypeName name="org.apache.pdfbox.text.PDFTextStripper"/>
+    <fullyQualifiedTypeName name="java.io.File"/>
+    <fullyQualifiedTypeName name="java.util.regex.Pattern"/>
+    <fullyQualifiedTypeName name="java.util.regex.Matcher"/>
+    <fullyQualifiedTypeName name="javax.swing.JFrame"/>
+    <fullyQualifiedTypeName name="javax.swing.JDialog"/>
+    <fullyQualifiedTypeName name="java.awt.Container"/>
+    <fullyQualifiedTypeName name="javax.swing.JTable"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="javax.swing.table.TableRowSorter"/>
+    <fullyQualifiedTypeName name="javax.swing.table.TableModel"/>
+    <fullyQualifiedTypeName name="javax.swing.filechooser.FileFilter"/>
+    <fullyQualifiedTypeName name="javax.swing.filechooser.FileNameExtensionFilter"/>
+    <fullyQualifiedTypeName name="java.awt.BorderLayout"/>
+    <fullyQualifiedTypeName name="java.awt.Cursor"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="javax.swing.JProgressBar"/>
+</qualifiedTypeNameHistroy>

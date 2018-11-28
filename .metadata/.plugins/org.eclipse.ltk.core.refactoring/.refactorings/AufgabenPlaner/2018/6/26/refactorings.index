@@ -1,0 +1,3 @@
+1529955985199	Rename method 'loadStatus'
+1530217215888	Rename field 'Person'
+1530218841231	Extract method 'close'

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;frame&apos; in &apos;de.florian_timm.gastroparser.Parser.showTable(...)&apos; to &apos;dialog&apos;&#x0A;- Original project: &apos;GastroParser&apos;&#x0A;- Original element: &apos;de.florian_timm.gastroparser.Parser.showTable(JFrame).frame&apos;&#x0A;- Renamed element: &apos;frame&apos;&#x0A;- Update references to refactored element" description="Rename local variable &apos;frame&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src&lt;de.florian_timm.gastroparser{Parser.java[Parser~showTable~QJFrame;@frame!2348!2377!2356!2360!QJDialog;!0!false" name="dialog" references="true" stamp="1543353697343" version="1.0"/>
+</session>

@@ -1,0 +1,7 @@
+cmp_developerKey=/home/timm/eclipse-workspace/garminSDK/developer_key
+eclipse.preferences.version=1
+logging_log_file_location=/tmp/GARMIN/plugin.log
+monkey_see_text_column_size=882
+notification_one_time_warning=true
+pathPreference=/home/timm/eclipse-workspace/garminSDK/connectiq-sdk-lin-2.4.9
+sdk_manager_new_sdk_available=true
