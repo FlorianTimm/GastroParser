@@ -65,6 +65,9 @@ public class Rechnungsposten {
 	public void setRechnung(Rechnung rechnung) {
 		this.rechnung = rechnung;
 	}
+	public double getPreisProEinheit() {
+		return this.getPreis() / (this.getMenge() * getArtikel().getMenge());
+	}
 	
 
 }

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Artikel {
 	private Produkt produkt;
 	private String artikelnr;
-	private String ean;
+	private long ean;
 	private double menge;
 	private ArrayList<Rechnungsposten> posten;
 	
@@ -24,7 +24,7 @@ public class Artikel {
 	 * @param artikelnr
 	 * @param ean
 	 */
-	public Artikel(Produkt produkt, double menge, String artikelnr, String ean) {
+	public Artikel(Produkt produkt, double menge, String artikelnr, long ean) {
 		this(produkt, menge);
 		this.setArtikelnr(artikelnr);
 		this.setEan(ean);
@@ -69,14 +69,14 @@ public class Artikel {
 	/**
 	 * @return the ean
 	 */
-	public String getEan() {
+	public long getEan() {
 		return ean;
 	}
 
 	/**
 	 * @param ean the ean to set
 	 */
-	public void setEan(String ean) {
+	public void setEan(long ean) {
 		this.ean = ean;
 	}
 

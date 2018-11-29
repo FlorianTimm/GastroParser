@@ -5,6 +5,7 @@ import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -13,7 +14,9 @@ import javax.swing.UIManager;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class GUI extends JFrame {
+import de.florian_timm.gastroparser.entity.Rechnungsposten;
+
+public class GUI extends JFrame implements ParserListener {
 	private static final long serialVersionUID = 1L;
 
 	public static void main(String[] args) {
@@ -43,6 +46,7 @@ public class GUI extends JFrame {
 		cp.add(jbOpen, BorderLayout.NORTH);
 
 		jpb = new JProgressBar();
+		jpb.setMaximum(100);
 		cp.add(jpb, BorderLayout.SOUTH);
 
 		this.pack();
@@ -61,27 +65,20 @@ public class GUI extends JFrame {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			jbOpen.setEnabled(false);
-			int n = jfc.getSelectedFiles().length;
-			jpb.setMaximum(n);
 			jpb.setValue(0);
-			Parser p = new Parser(this, jfc.getSelectedFiles());
+			MetroParser p = new MetroParser(this, jfc.getSelectedFiles());
 			Thread t = new Thread(p);
-			t.start();
-
-			try {
-				t.join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-
-			jpb.setValue(n);
-			p.showTable(this);
-			jbOpen.setEnabled(true);
-			this.setCursor(Cursor.getDefaultCursor());
+			t.start();	
 		}
 	}
 
-	public synchronized void setStatus(int status) {
+	public void setStatus(int status) {
 		  this.jpb.setValue(status);
+	}
+
+	public void readyParser(ArrayList<Rechnungsposten> posten) {
+		new TableDialog(this, posten);
+		jbOpen.setEnabled(true);
+		this.setCursor(Cursor.getDefaultCursor());
 	}
 }
