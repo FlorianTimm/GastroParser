@@ -6,29 +6,29 @@ import de.florian_timm.gastroparser.entity.Lieferant;
 
 public class LieferantOrdner implements Iterable<Lieferant> {
 	private ArrayList<Lieferant> lieferanten;
-	private static LieferantOrdner einzigeInstanz;
-	
+	private static LieferantOrdner einzigeInstanz = null;
+
 	private LieferantOrdner() {
 		lieferanten = new ArrayList<Lieferant>();
 	}
-	
+
 	public static LieferantOrdner getInstanz() {
 		if (einzigeInstanz == null) {
 			einzigeInstanz = new LieferantOrdner();
 		}
 		return einzigeInstanz;
 	}
-	
-	public Lieferant createLieferant (String name) {
+
+	public Lieferant getLieferant(String name, String ustId) {
 		for (Lieferant lieferant : lieferanten) {
-			if (lieferant.getName().toLowerCase().equals(name.toLowerCase())) {
+			if ((lieferant.getUstId() != null && lieferant.getUstId().toUpperCase().equals(ustId.toUpperCase()))
+					|| (lieferant.getName() != null && lieferant.getName().toUpperCase().equals(name.toUpperCase()))) {
 				return lieferant;
 			}
 		}
-		
-		return new Lieferant(name);
+		return null;
 	}
-	
+
 	public void addLieferant(Lieferant lieferant) {
 		this.lieferanten.add(lieferant);
 	}
@@ -50,7 +50,5 @@ public class LieferantOrdner implements Iterable<Lieferant> {
 		}
 		return null;
 	}
-	
-	
-	
+
 }

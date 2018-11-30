@@ -2,6 +2,8 @@ package de.florian_timm.gastroparser.entity;
 
 import java.util.ArrayList;
 
+import de.florian_timm.gastroparser.ordner.LieferantOrdner;
+
 public class Lieferant {
 	private String name;
 	private String ustId;
@@ -10,8 +12,10 @@ public class Lieferant {
 	/**
 	 * @param name
 	 */
-	public Lieferant(String name) {
+	private Lieferant(String name, String ustId) {
 		this.name = name;
+		this.setUstId(ustId);
+		LieferantOrdner.getInstanz().addLieferant(this);
 		this.rechnungen = new ArrayList<Rechnung>();
 	}
 
@@ -66,6 +70,14 @@ public class Lieferant {
 	public void setUstId(String ustId) {
 		if (Lieferant.pruefeUstID(ustId))
 			this.ustId = ustId;
+	}
+
+	public static Lieferant create(String name, String ustId) {
+		Lieferant l = LieferantOrdner.getInstanz().getLieferant(name, ustId);
+		if (l != null) {
+			return l;
+		}
+		return new Lieferant(name, ustId);
 	}
 
 }

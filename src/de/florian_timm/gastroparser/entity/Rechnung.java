@@ -20,6 +20,7 @@ public class Rechnung {
 		this.setRechnungsnummer(rechnungsnummer);
 		this.setDatumUhrzeit(datum);
 		liste = new ArrayList<Rechnungsposten>();
+		lieferant.addRechnung(this);
 	}
 
 	
