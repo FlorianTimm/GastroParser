@@ -68,8 +68,23 @@ public class Lieferant {
 	 * @param ustId the ustId to set
 	 */
 	public void setUstId(String ustId) {
-		if (Lieferant.pruefeUstID(ustId))
+		//if (Lieferant.pruefeUstID(ustId))
 			this.ustId = ustId;
+	}
+	
+	public double getGesamtSumme() {
+		double summe = 0.;
+		
+		for (Rechnung r : rechnungen) {
+			System.out.println(r.getGesamtSumme());
+			summe += r.getGesamtSumme();
+		}
+		
+		return summe;
+	}
+	
+	public int getAnzahlRechnungen() {
+		return rechnungen.size();
 	}
 
 	public static Lieferant create(String name, String ustId) {

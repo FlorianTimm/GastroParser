@@ -16,6 +16,7 @@ public class Rechnungsposten {
 		this.setArtikel(artikel);
 		this.setMenge(menge);
 		this.setPreis(preis);
+		rechnung.addPosten(this);
 	}
 	/**
 	 * @return the artikel

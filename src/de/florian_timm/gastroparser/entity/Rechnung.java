@@ -77,4 +77,15 @@ public class Rechnung {
 	public void setRechnungsnummer(String rechnungsnummer) {
 		this.rechnungsnummer = rechnungsnummer;
 	}
+
+
+	public double getGesamtSumme() {
+		double summe = 0.;
+		
+		for (Rechnungsposten r : liste) {
+			summe += r.getPreis();
+		}
+		
+		return summe;
+	}
 }

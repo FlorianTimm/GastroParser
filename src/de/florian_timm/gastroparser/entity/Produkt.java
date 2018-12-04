@@ -1,5 +1,7 @@
 package de.florian_timm.gastroparser.entity;
 
+import de.florian_timm.gastroparser.ordner.ProduktOrdner;
+
 public class Produkt {
 	private String bezeichnung;
 	private double mwst;
@@ -10,10 +12,24 @@ public class Produkt {
 	 * @param einheit
 	 * @param mwst
 	 */
-	public Produkt(String bezeichnung, String einheit, double mwst) {
+	private Produkt(String bezeichnung, String einheit, double mwst) {
 		this.setBezeichnung(bezeichnung);
 		this.setEinheit(einheit);
 		this.setMwst(mwst);
+		ProduktOrdner.getInstanz().addProdukt(this);
+	}
+	
+	/**
+	 * @param bezeichnung
+	 * @param einheit
+	 * @param mwst
+	 */
+	public static Produkt create(String bezeichnung, String einheit, double mwst) {
+		Produkt p = ProduktOrdner.getInstanz().getProdukt(bezeichnung);
+		if (p != null) {
+			return p;
+		}
+		return new Produkt(bezeichnung, einheit, mwst);
 	}
 
 	/**

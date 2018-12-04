@@ -15,6 +15,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import de.florian_timm.gastroparser.entity.Rechnungsposten;
+import de.florian_timm.gastroparser.ordner.LieferantOrdner;
 
 public class GUI extends JFrame implements ParserListener {
 	private static final long serialVersionUID = 1L;
@@ -78,6 +79,7 @@ public class GUI extends JFrame implements ParserListener {
 
 	public void readyParser(ArrayList<Rechnungsposten> posten) {
 		new TableDialog(this, posten);
+		new TableDialog(this, LieferantOrdner.getInstanz().getLieferanten());
 		jbOpen.setEnabled(true);
 		this.setCursor(Cursor.getDefaultCursor());
 	}

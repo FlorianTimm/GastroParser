@@ -40,6 +40,15 @@ public class ProduktOrdner implements Iterable<Produkt> {
 		}
 		return null;
 	}
+
+	public Produkt getProdukt(String bezeichnung) {
+		for (Produkt p : produkte) {
+			if (p.getBezeichnung().toLowerCase().equals(bezeichnung.toLowerCase())) {
+				return p;
+			}
+		}
+		return null;
+	}
 	
 	
 	

@@ -128,7 +128,7 @@ public class MetroParser extends Parser {
 					}
 					double mwst = m.group(10).equals("B") ? 7.0 : 19.0;
 
-					Produkt produkt = new Produkt(bez, einheit, mwst);
+					Produkt produkt = Produkt.create(bez, einheit, mwst);
 					Artikel artikel = new Artikel(produkt, inhalt, artnr, ean);
 					Rechnungsposten rp = new Rechnungsposten(rechnung, artikel, menge, preis);
 					posten.add(rp);

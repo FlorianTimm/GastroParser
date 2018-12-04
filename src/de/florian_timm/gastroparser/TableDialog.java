@@ -9,15 +9,16 @@ import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import de.florian_timm.gastroparser.entity.Lieferant;
 import de.florian_timm.gastroparser.entity.Rechnungsposten;
 
 public class TableDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
-	private final String[] columns = {"Lieferant","ArtNr", "EAN", "Bezeichnung", "Preis pro",
-			 "Einheit", "Inhalt", "Menge", "Gesamtpreis","MwSt"};
 	
 	public TableDialog(JFrame gui, ArrayList<Rechnungsposten> posten) {
 		super(gui);
+		String[] columns = {"Lieferant","ArtNr", "EAN", "Bezeichnung", "Preis pro",
+				 "Einheit", "Inhalt", "Menge", "Gesamtpreis","MwSt"};
 		String[][] data = new String[posten.size()][columns.length];
         for (int i = 0; i < data.length; i++) {
         	Rechnungsposten p = posten.get(i);
@@ -33,7 +34,23 @@ public class TableDialog extends JDialog {
         	data[i][j++] = String.format("%.2f", p.getPreis());
         	data[i][j++] = String.format("%.1f", p.getArtikel().getProdukt().getMwst());;
         }
-		
+		makeTable(columns, data);
+	}
+	
+	public TableDialog(JFrame gui, Lieferant[] lieferanten) {
+		super(gui);
+		String[] columns = {"Name","UstID", "Rechnungen", "Summe"};
+		String[][] data = new String[lieferanten.length][columns.length];
+        for (int i = 0; i < data.length; i++) {
+        	data[i][0] = lieferanten[i].getName();
+        	data[i][1] = lieferanten[i].getUstId();
+        	data[i][3] = String.format("%2d", lieferanten[i].getAnzahlRechnungen());
+        	data[i][3] = String.format("%.2f", lieferanten[i].getGesamtSumme());
+        }
+		makeTable(columns, data);
+	}
+
+	private void makeTable(String[] columns, String[][] data) {
 		Container cp = this.getContentPane();
 		JTable jt = new JTable(data, columns);
 		TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(jt.getModel());
