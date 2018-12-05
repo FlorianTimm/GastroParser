@@ -88,4 +88,9 @@ public class Rechnung {
 		
 		return summe;
 	}
+
+
+	public Object getAnzahlPosten() {
+		return liste.size();
+	}
 }

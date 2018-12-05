@@ -15,8 +15,8 @@ public class Lieferant {
 	private Lieferant(String name, String ustId) {
 		this.name = name;
 		this.setUstId(ustId);
-		LieferantOrdner.getInstanz().addLieferant(this);
 		this.rechnungen = new ArrayList<Rechnung>();
+		LieferantOrdner.getInstanz().addLieferant(this);
 	}
 
 	public String getName() {

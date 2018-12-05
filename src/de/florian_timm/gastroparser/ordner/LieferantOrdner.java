@@ -3,10 +3,10 @@ package de.florian_timm.gastroparser.ordner;
 import java.util.ArrayList;
 import java.util.Iterator;
 import de.florian_timm.gastroparser.entity.Lieferant;
-import de.florian_timm.gastroparser.entity.Rechnungsposten;
 
 public class LieferantOrdner implements Iterable<Lieferant> {
-	private ArrayList<Lieferant> lieferanten;
+
+	private final ArrayList<Lieferant> lieferanten;
 	private static LieferantOrdner einzigeInstanz = null;
 
 	private LieferantOrdner() {
