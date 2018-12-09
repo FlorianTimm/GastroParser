@@ -1,11 +1,14 @@
 package de.florian_timm.gastroparser.entity;
 
+import java.util.ArrayList;
+
 import de.florian_timm.gastroparser.ordner.ProduktOrdner;
 
 public class Produkt {
 	private String bezeichnung;
 	private double mwst;
 	private String einheit;
+	private final ArrayList<Artikel> artikel = new ArrayList<Artikel>();
 	
 	/**
 	 * @param bezeichnung
@@ -73,6 +76,29 @@ public class Produkt {
 	public void setEinheit(String einheit) {
 		this.einheit = einheit;
 	}
+
+	public void add(Artikel artikel) {
+		this.artikel.add(artikel);
+	}
 	
+	public double getGesamtMenge() {
+		double summe = 0.;
+		for (Artikel a : this.artikel) {
+			summe += a.getGesamtMenge();
+		}
+		return summe;
+	}
+	
+	public double getGesamtPreis() {
+		double summe = 0.;
+		for (Artikel a : this.artikel) {
+			summe += a.getGesamtPreis();
+		}
+		return summe;
+	}
+	
+	public double getDurchschnittsPreis () {
+		return getGesamtPreis() / getGesamtMenge();
+	}
 	
 }

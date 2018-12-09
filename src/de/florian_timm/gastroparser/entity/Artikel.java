@@ -7,8 +7,8 @@ public class Artikel {
 	private String artikelnr;
 	private long ean;
 	private double menge;
-	private ArrayList<Rechnungsposten> posten;
-	
+	private final ArrayList<Rechnungsposten> posten = new ArrayList<Rechnungsposten>();
+
 	/**
 	 * @param produkt
 	 * @param menge
@@ -16,8 +16,9 @@ public class Artikel {
 	public Artikel(Produkt produkt, double menge) {
 		this.setProdukt(produkt);
 		this.setMenge(menge);
+		produkt.add(this);
 	}
-	
+
 	/**
 	 * @param produkt
 	 * @param menge
@@ -30,10 +31,10 @@ public class Artikel {
 		this.setEan(ean);
 	}
 
-	public void addPosten (Rechnungsposten posten) {
+	public void addPosten(Rechnungsposten posten) {
 		this.posten.add(posten);
 	}
-	
+
 	public Rechnungsposten[] getRechnungsposten() {
 		return posten.toArray(new Rechnungsposten[posten.size()]);
 	}
@@ -93,5 +94,24 @@ public class Artikel {
 	public void setMenge(double menge) {
 		this.menge = menge;
 	}
-	
+
+	public double getGesamtMenge() {
+		double summe = 0.;
+		for (Rechnungsposten rp : posten) {
+			summe += rp.getMenge();
+		}
+		return summe;
+	}
+
+	public double getGesamtPreis() {
+		double summe = 0.;
+		for (Rechnungsposten rp : posten) {
+			summe += rp.getPreis();
+		}
+		return summe;
+	}
+
+	public void add(Rechnungsposten rechnungsposten) {
+		posten.add(rechnungsposten);
+	}
 }

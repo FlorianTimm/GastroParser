@@ -25,6 +25,8 @@ import de.florian_timm.gastroparser.entity.Rechnungsposten;
 public class MetroParser extends Parser {
 	final private Pattern PT_USTID = Pattern.compile("(DE\\d{9})");
 
+	final private Pattern PT_RECHNR = Pattern.compile("\\/(\\d{3}\\/\\d{1}\\/\\d{1}\\/\\d{4}\\/\\d{6})");
+
 	final private Pattern PT_ARTIKEL = Pattern.compile(
 			"\\h{2}(\\d{6}\\.\\d)\\h(\\d{13}|\\h{13})\\h+(.{0,45})([A-Z]{2})\\h+(\\d+,\\d{3})\\h+(\\d+,?\\d*)\\h*(\\d+,\\d{2})\\h*(\\d+)\\h+(\\d+,\\d{2})\\h+([AB])\\h+(\\d+,\\d{3}|\\h+)(\\h{5}\\w)?");
 	final private Pattern PT_DATUM = Pattern
@@ -90,55 +92,61 @@ public class MetroParser extends Parser {
 	}
 
 	private void parseMetro(String parsedText) {
-		//System.out.println(parsedText);
+		// System.out.println(parsedText);
 		Matcher d = PT_DATUM.matcher(parsedText);
 		LocalDateTime datum = null;
 		if (d.find()) {
 			DateTimeFormatter f = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 			datum = LocalDateTime.from(f.parse(d.group(0)));
 		}
+		Matcher rnr = PT_RECHNR.matcher(parsedText);
+		String rechnr = "";
+		if (rnr.find()) {
+			rechnr = rnr.group(1);
+		}
 		Lieferant metro = Lieferant.create("Metro", "DE184048859");
-		Rechnung rechnung = new Rechnung(metro, "", datum);
+		Rechnung rechnung = Rechnung.create(metro, rechnr, datum);
 
-		Matcher m = PT_ARTIKEL.matcher(parsedText);
+		if (rechnung.getAnzahlPosten() <= 0) {
+			Matcher m = PT_ARTIKEL.matcher(parsedText);
 
-		/*
-		 * "ArtNr", "EAN", "Bezeichnung", 4"Pack", 5"Einzelpreis", 6"Inhalt", 7"Preis",
-		 * 8"Menge", 9"Gesamtpreis", 10"MwSt", 11"Stückpreis","Werbung"
-		 */
+			/*
+			 * "ArtNr", "EAN", "Bezeichnung", 4"Pack", 5"Einzelpreis", 6"Inhalt", 7"Preis",
+			 * 8"Menge", 9"Gesamtpreis", 10"MwSt", 11"Stückpreis","Werbung"
+			 */
 
-		while (m.find()) {
-			if (m.groupCount() >= 11) {
-				try {
-					String artnr = m.group(1);
-					long ean = 0;
+			while (m.find()) {
+				if (m.groupCount() >= 11) {
 					try {
-						ean = Long.parseLong(m.group(2));
-					} catch (NumberFormatException e) {
-					}
-					String bez = m.group(3);
-					String einheit = m.group(4);
-					double inhalt = number.parse(m.group(6)).doubleValue();
-					double menge = number.parse(m.group(8)).doubleValue();
-					double preis = 0;
-					try {
-						preis = number.parse(m.group(11)).doubleValue() * menge * inhalt;
+						String artnr = m.group(1);
+						long ean = 0;
+						try {
+							ean = Long.parseLong(m.group(2));
+						} catch (NumberFormatException e) {
+						}
+						String bez = m.group(3);
+						String einheit = m.group(4);
+						double inhalt = number.parse(m.group(6)).doubleValue();
+						double menge = number.parse(m.group(8)).doubleValue();
+						double preis = 0;
+						try {
+							preis = number.parse(m.group(11)).doubleValue() * menge * inhalt;
+						} catch (ParseException e) {
+							preis = number.parse(m.group(9)).doubleValue();
+						}
+						double mwst = m.group(10).equals("B") ? 7.0 : 19.0;
+
+						Produkt produkt = Produkt.create(bez, einheit, mwst);
+						Artikel artikel = new Artikel(produkt, inhalt, artnr, ean);
+						Rechnungsposten rp = new Rechnungsposten(rechnung, artikel, menge, preis);
+						posten.add(rp);
 					} catch (ParseException e) {
-						preis = number.parse(m.group(9)).doubleValue();
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
-					double mwst = m.group(10).equals("B") ? 7.0 : 19.0;
-
-					Produkt produkt = Produkt.create(bez, einheit, mwst);
-					Artikel artikel = new Artikel(produkt, inhalt, artnr, ean);
-					Rechnungsposten rp = new Rechnungsposten(rechnung, artikel, menge, preis);
-					posten.add(rp);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
 			}
 		}
-
 	}
 
 }

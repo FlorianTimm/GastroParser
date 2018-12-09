@@ -7,6 +7,8 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -20,6 +22,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import de.florian_timm.gastroparser.entity.Rechnungsposten;
 import de.florian_timm.gastroparser.gui.LieferantenTable;
+import de.florian_timm.gastroparser.gui.ProduktTable;
 import de.florian_timm.gastroparser.ordner.Informer;
 
 public class GUI extends JFrame implements ParserListener {
@@ -56,6 +59,23 @@ public class GUI extends JFrame implements ParserListener {
 		mDatei.addSeparator();
 		mDatei.add(mExit);
 		menu.add(mDatei);
+		JMenu mProdukte = new JMenu("Produkte");
+		JMenuItem mPListe = new JMenuItem("Liste...");
+		mPListe.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JDialog jd = new JDialog();
+				jd.setTitle("Produkte");
+				Container cp2 = jd.getContentPane();
+				cp2.setLayout(new BorderLayout());
+				ProduktTable tab = new ProduktTable();
+				cp2.add(new JScrollPane(tab), BorderLayout.CENTER);
+				jd.pack();
+				jd.setVisible(true);
+			}
+		});
+		mProdukte.add(mPListe);
+		menu.add(mProdukte);
 		this.setJMenuBar(menu);
 		
 		Container cp = this.getContentPane();

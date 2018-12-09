@@ -1,5 +1,6 @@
 package de.florian_timm.gastroparser.gui;
 
+import de.florian_timm.gastroparser.entity.Produkt;
 import de.florian_timm.gastroparser.entity.Rechnung;
 import de.florian_timm.gastroparser.entity.Rechnungsposten;
 
@@ -13,6 +14,10 @@ public class RechnungsPostenTable extends AbstractDataTable {
 	public RechnungsPostenTable(Rechnung rechnung) {
 		this.rechnung = rechnung;
 		this.dataChanged();
+	}
+
+	public RechnungsPostenTable(Produkt produkt) {
+		//TODO Implementieren
 	}
 
 	@Override

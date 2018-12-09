@@ -2,12 +2,11 @@ package de.florian_timm.gastroparser.entity;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Rechnung {
 	private String rechnungsnummer;
 	private LocalDateTime datumUhrzeit;
-	private List<Rechnungsposten> liste;
+	private ArrayList<Rechnungsposten> liste = new ArrayList<Rechnungsposten>();
 	private Lieferant lieferant;
 	
 	/**
@@ -15,12 +14,15 @@ public class Rechnung {
 	 * @param rechnungsnummer
 	 * @param datum
 	 */
-	public Rechnung(Lieferant lieferant, String rechnungsnummer, LocalDateTime datum) {
+	private Rechnung(Lieferant lieferant, String rechnungsnummer, LocalDateTime datum) {
 		this.setLieferant(lieferant);
 		this.setRechnungsnummer(rechnungsnummer);
 		this.setDatumUhrzeit(datum);
-		liste = new ArrayList<Rechnungsposten>();
 		lieferant.addRechnung(this);
+	}
+	
+	public static Rechnung create(Lieferant lieferant, String rechnungsnummer, LocalDateTime datum) {
+		return new Rechnung(lieferant, rechnungsnummer, datum);
 	}
 
 	
@@ -90,7 +92,7 @@ public class Rechnung {
 	}
 
 
-	public Object getAnzahlPosten() {
+	public int getAnzahlPosten() {
 		return liste.size();
 	}
 }

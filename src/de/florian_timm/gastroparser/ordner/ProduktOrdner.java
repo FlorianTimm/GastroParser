@@ -49,6 +49,10 @@ public class ProduktOrdner implements Iterable<Produkt> {
 		}
 		return null;
 	}
+
+	public Produkt[] getProdukte() {
+		return this.produkte.toArray(new Produkt[produkte.size()]);
+	}
 	
 	
 	
