@@ -41,16 +41,21 @@ public class RechnungenTable extends AbstractDataTable {
 		return columns;
 	}
 
-	protected String[][] getData() {
+	protected Object[][] getData() {
 		rechnungen = lieferant.getRechnungen();
-		String[][] data = new String[rechnungen.length][getColumns().length];
+		Object[][] data = new Object[rechnungen.length][getColumns().length];
 		for (int i = 0; i < data.length; i++) {
 			data[i][0] = rechnungen[i].getDatumUhrzeit().toString();
 			data[i][1] = rechnungen[i].getRechnungsnummer();
-			data[i][3] = String.format("%d", rechnungen[i].getAnzahlPosten());
-			data[i][3] = String.format("%.2f", rechnungen[i].getGesamtSumme());
+			data[i][2] = rechnungen[i].getAnzahlPosten();
+			data[i][3] = rechnungen[i].getGesamtSumme();
 		}
 		return data;
+	}
+
+	@Override
+	protected void afterDataChanged() {
+		this.getColumnModel().getColumn(3).setCellRenderer(new DeciRenderer(DeciRenderer.EURO));
 	}
 
 }

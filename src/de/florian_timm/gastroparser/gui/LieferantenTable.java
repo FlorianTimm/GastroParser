@@ -38,16 +38,21 @@ public class LieferantenTable extends AbstractDataTable {
 		return columns;
 	}
 
-	protected String[][] getData() {
+	protected Object[][] getData() {
 		lieferanten = LieferantOrdner.getInstanz().getLieferanten();
-		String[][] data = new String[lieferanten.length][getColumns().length];
+		Object[][] data = new Object[lieferanten.length][getColumns().length];
 		for (int i = 0; i < data.length; i++) {
 			data[i][0] = lieferanten[i].getName();
 			data[i][1] = lieferanten[i].getUstId();
-			data[i][3] = String.format("%d", lieferanten[i].getAnzahlRechnungen());
-			data[i][3] = String.format("%.2f", lieferanten[i].getGesamtSumme());
+			data[i][2] = lieferanten[i].getAnzahlRechnungen();
+			data[i][3] = lieferanten[i].getGesamtSumme();
 		}
 		return data;
+	}
+
+	@Override
+	protected void afterDataChanged() {
+		this.getColumnModel().getColumn(3).setCellRenderer(new DeciRenderer(DeciRenderer.EURO));
 	}
 
 }

@@ -33,26 +33,34 @@ public class RechnungsPostenTable extends AbstractDataTable {
 		return columns;
 	}
 
-	protected String[][] getData() {
+	protected Object[][] getData() {
 		Rechnungsposten[] rp = rechnung.getRechnungsposten();
 
-		String[][] data = new String[rp.length][getColumns().length];
+		Object[][] data = new Object[rp.length][getColumns().length];
 		for (int i = 0; i < data.length; i++) {
 			Rechnungsposten p = rp[i];
 			int j = 0;
-			data[i][j++] = p.getRechnung().getLieferant().getName();
-			data[i][j++] = p.getArtikel().getArtikelnr();
-			data[i][j++] = String.format("%13d", p.getArtikel().getEan());
-			data[i][j++] = p.getArtikel().getProdukt().getBezeichnung();
-			data[i][j++] = String.format("%.3f", p.getPreisProEinheit());
-			data[i][j++] = p.getArtikel().getProdukt().getEinheit();
-			data[i][j++] = String.format("%.3f", p.getArtikel().getMenge());
-			data[i][j++] = String.format("%.3f", p.getMenge());
-			data[i][j++] = String.format("%.2f", p.getPreis());
-			data[i][j++] = String.format("%.1f", p.getArtikel().getProdukt().getMwst());
+			data[i][0] = p.getRechnung().getLieferant().getName();
+			data[i][1] = p.getArtikel().getArtikelnr();
+			data[i][2] = String.format("%13d", p.getArtikel().getEan());
+			data[i][3] = p.getArtikel().getProdukt().getBezeichnung();
+			data[i][4] = p.getPreisProEinheit();
+			data[i][5] = p.getArtikel().getProdukt().getEinheit();
+			data[i][6] = p.getArtikel().getMenge();
+			data[i][7] = p.getMenge();
+			data[i][8] = p.getPreis();
+			data[i][9] = p.getArtikel().getProdukt().getMwst();
 			;
 		}
 		return data;
+	}
+
+	@Override
+	protected void afterDataChanged() {
+		this.getColumnModel().getColumn(6).setCellRenderer(new DeciRenderer(DeciRenderer.KG));
+		this.getColumnModel().getColumn(7).setCellRenderer(new DeciRenderer(DeciRenderer.KG));
+		this.getColumnModel().getColumn(8).setCellRenderer(new DeciRenderer(DeciRenderer.EURO));
+		this.getColumnModel().getColumn(9).setCellRenderer(new DeciRenderer(DeciRenderer.MWST));
 	}
 
 }

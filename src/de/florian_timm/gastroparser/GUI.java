@@ -116,7 +116,6 @@ public class GUI extends JFrame implements ParserListener {
 	}
 
 	public void readyParser(ArrayList<Rechnungsposten> posten) {
-		new TableDialog(this, posten);
 		this.setCursor(Cursor.getDefaultCursor());
 		Informer.get().informListener();
 	}

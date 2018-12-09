@@ -100,7 +100,7 @@ public class Artikel {
 		for (Rechnungsposten rp : posten) {
 			summe += rp.getMenge();
 		}
-		return summe;
+		return summe * getMenge();
 	}
 
 	public double getGesamtPreis() {

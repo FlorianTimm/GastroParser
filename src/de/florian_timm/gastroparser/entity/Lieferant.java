@@ -8,6 +8,16 @@ public class Lieferant {
 	private String name;
 	private String ustId;
 	private ArrayList<Rechnung> rechnungen;
+	
+	private String regDate = "((0[1-9]|[12]\\d|3[01])\\.(0\\d|1[0-2])\\.[12]\\d{3})\\h(([01]\\d|2[0-4]|):[0-5]\\d)";
+	private int regDatePos = 0;
+	private String regDateOrder = "dd.MM.yyyy HH:mm";
+	
+	private String regRechPos = "";
+	private int[] regRechPosOrder = new int[11];
+	
+	private String regRechNr = "";
+	private int regRechNrPos = 0;
 
 	/**
 	 * @param name
@@ -93,6 +103,80 @@ public class Lieferant {
 			return l;
 		}
 		return new Lieferant(name, ustId);
+	}
+
+	public String getRegDate() {
+		return regDate;
+	}
+
+	public void setRegDate(String regDate) {
+		this.regDate = regDate;
+	}
+
+	public String getRegRechPos() {
+		return regRechPos;
+	}
+
+	public void setRegRechPos(String regRechPos) {
+		this.regRechPos = regRechPos;
+	}
+
+	public int[] getRegRechPosOrder() {
+		return regRechPosOrder;
+	}
+
+	public void setRegRechPosOrder(int[] regRechPosOrder) {
+		this.regRechPosOrder = regRechPosOrder;
+	}
+
+	public String getRegRechNr() {
+		return regRechNr;
+	}
+
+	public void setRegRechNr(String regRechNr) {
+		this.regRechNr = regRechNr;
+	}
+
+	/**
+	 * @return the regDateOrder
+	 */
+	public String getRegDateOrder() {
+		return regDateOrder;
+	}
+
+	/**
+	 * @param regDateOrder the regDateOrder to set
+	 */
+	public void setRegDateOrder(String regDateOrder) {
+		this.regDateOrder = regDateOrder;
+	}
+
+	/**
+	 * @return the regDatePos
+	 */
+	public int getRegDatePos() {
+		return regDatePos;
+	}
+
+	/**
+	 * @param regDatePos the regDatePos to set
+	 */
+	public void setRegDatePos(int regDatePos) {
+		this.regDatePos = regDatePos;
+	}
+
+	/**
+	 * @return the regRechNrPos
+	 */
+	public int getRegRechNrPos() {
+		return regRechNrPos;
+	}
+
+	/**
+	 * @param regRechNrPos the regRechNrPos to set
+	 */
+	public void setRegRechNrPos(int regRechNrPos) {
+		this.regRechNrPos = regRechNrPos;
 	}
 
 }

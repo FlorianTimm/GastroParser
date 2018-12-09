@@ -134,7 +134,7 @@ public class MetroParser extends Parser {
 						} catch (ParseException e) {
 							preis = number.parse(m.group(9)).doubleValue();
 						}
-						double mwst = m.group(10).equals("B") ? 7.0 : 19.0;
+						double mwst = m.group(10).equals("B") ? .07 : .19;
 
 						Produkt produkt = Produkt.create(bez, einheit, mwst);
 						Artikel artikel = new Artikel(produkt, inhalt, artnr, ean);
