@@ -1,10 +1,13 @@
 package de.florian_timm.gastroparser.entity;
 
+import de.florian_timm.gastroparser.Database;
+
 public class Rechnungsposten {
 	private Artikel artikel;
 	private double menge;
 	private double preis;
 	private Rechnung rechnung;
+	private long id;
 	/**
 	 * @param rechnung
 	 * @param artikel
@@ -16,6 +19,16 @@ public class Rechnungsposten {
 		this.setArtikel(artikel);
 		this.setMenge(menge);
 		this.setPreis(preis);
+		artikel.add(this);
+		rechnung.addPosten(this);
+		this.setId(Database.get().insert(this));
+	}
+	public Rechnungsposten(long rpid, Artikel artikel, double menge, double preis, Rechnung rechnung) {
+		this.setRechnung(rechnung);
+		this.setArtikel(artikel);
+		this.setMenge(menge);
+		this.setPreis(preis);
+		this.setId(rpid);
 		artikel.add(this);
 		rechnung.addPosten(this);
 	}
@@ -69,6 +82,18 @@ public class Rechnungsposten {
 	}
 	public double getPreisProEinheit() {
 		return this.getPreis() / (this.getMenge() * getArtikel().getMenge());
+	}
+	/**
+	 * @return the id
+	 */
+	public long getId() {
+		return id;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(long id) {
+		this.id = id;
 	}
 	
 

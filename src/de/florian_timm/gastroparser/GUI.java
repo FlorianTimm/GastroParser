@@ -36,6 +36,7 @@ public class GUI extends JFrame implements ParserListener {
 
 	public GUI() {
 		super("GastroParser");
+		Database.get();
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {

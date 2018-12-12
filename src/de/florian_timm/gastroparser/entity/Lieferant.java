@@ -2,9 +2,13 @@ package de.florian_timm.gastroparser.entity;
 
 import java.util.ArrayList;
 
+import de.florian_timm.gastroparser.Database;
 import de.florian_timm.gastroparser.ordner.LieferantOrdner;
 
 public class Lieferant {
+	
+
+	private long id;
 	private String name;
 	private String ustId;
 	private ArrayList<Rechnung> rechnungen;
@@ -25,6 +29,36 @@ public class Lieferant {
 	private Lieferant(String name, String ustId) {
 		this.name = name;
 		this.setUstId(ustId);
+		this.rechnungen = new ArrayList<Rechnung>();
+		this.id = Database.get().insert(this);
+		LieferantOrdner.getInstanz().addLieferant(this);
+	}
+	
+	/**
+	 * @param id
+	 * @param name
+	 * @param ustId
+	 * @param rechnungen
+	 * @param regDate
+	 * @param regDatePos
+	 * @param regDateOrder
+	 * @param regRechPos
+	 * @param regRechPosOrder
+	 * @param regRechNr
+	 * @param regRechNrPos
+	 */
+	public Lieferant(long id, String name, String ustId, String regDate, int regDatePos,
+			String regDateOrder, String regRechPos, int[] regRechPosOrder, String regRechNr, int regRechNrPos) {
+		this.id = id;
+		this.name = name;
+		this.ustId = ustId;
+		this.regDate = regDate;
+		this.regDatePos = regDatePos;
+		this.regDateOrder = regDateOrder;
+		this.regRechPos = regRechPos;
+		this.regRechPosOrder = regRechPosOrder;
+		this.regRechNr = regRechNr;
+		this.regRechNrPos = regRechNrPos;
 		this.rechnungen = new ArrayList<Rechnung>();
 		LieferantOrdner.getInstanz().addLieferant(this);
 	}
@@ -177,6 +211,20 @@ public class Lieferant {
 	 */
 	public void setRegRechNrPos(int regRechNrPos) {
 		this.regRechNrPos = regRechNrPos;
+	}
+
+	/**
+	 * @return the lid
+	 */
+	public long getId() {
+		return id;
+	}
+
+	/**
+	 * @param lid the lid to set
+	 */
+	public void setId(long id) {
+		this.id = id;
 	}
 
 }

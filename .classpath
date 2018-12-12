@@ -12,5 +12,6 @@
 	<classpathentry kind="lib" path="/home/timm/eclipse-workspace/_lib/pdfbox-tools-2.0.12.jar"/>
 	<classpathentry kind="lib" path="/home/timm/eclipse-workspace/_lib/preflight-app-2.0.12.jar"/>
 	<classpathentry kind="lib" path="/home/timm/eclipse-workspace/_lib/xmpbox-2.0.12.jar"/>
+	<classpathentry kind="lib" path="/home/timm/eclipse-workspace/_lib/sqlite-jdbc-3.23.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

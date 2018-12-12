@@ -2,12 +2,17 @@ package de.florian_timm.gastroparser.entity;
 
 import java.util.ArrayList;
 
+import de.florian_timm.gastroparser.Database;
+
 public class Artikel {
 	private Produkt produkt;
 	private String artikelnr;
 	private long ean;
 	private double menge;
 	private final ArrayList<Rechnungsposten> posten = new ArrayList<Rechnungsposten>();
+	private long id;
+	
+	private static ArrayList<Artikel> artikelListe = new ArrayList<Artikel>();
 
 	/**
 	 * @param produkt
@@ -17,6 +22,8 @@ public class Artikel {
 		this.setProdukt(produkt);
 		this.setMenge(menge);
 		produkt.add(this);
+		artikelListe.add(this);
+		this.setId(Database.get().insert(this));
 	}
 
 	/**
@@ -29,6 +36,16 @@ public class Artikel {
 		this(produkt, menge);
 		this.setArtikelnr(artikelnr);
 		this.setEan(ean);
+	}
+
+	public Artikel(long aid, String artikelnr, long ean, double menge, Produkt produkt) {
+		this.setProdukt(produkt);
+		this.setMenge(menge);
+		this.setArtikelnr(artikelnr);
+		this.setEan(ean);
+		this.setId(aid);
+		produkt.add(this);
+		artikelListe.add(this);
 	}
 
 	public void addPosten(Rechnungsposten posten) {
@@ -113,5 +130,27 @@ public class Artikel {
 
 	public void add(Rechnungsposten rechnungsposten) {
 		posten.add(rechnungsposten);
+	}
+
+	/**
+	 * @return the id
+	 */
+	public long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public static Artikel getArtikel(long artikelId) {
+		for (Artikel artikel : artikelListe) {
+			if (artikel.getId() == artikelId) 
+				return artikel;
+		}
+		return null;
 	}
 }

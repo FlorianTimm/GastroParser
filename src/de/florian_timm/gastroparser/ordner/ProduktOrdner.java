@@ -53,6 +53,15 @@ public class ProduktOrdner implements Iterable<Produkt> {
 	public Produkt[] getProdukte() {
 		return this.produkte.toArray(new Produkt[produkte.size()]);
 	}
+
+	public Produkt getProdukt(long produktDbId) {
+		for (Produkt p : produkte) {
+			if (p.getId() == produktDbId) {
+				return p;
+			}
+		}
+		return null;
+	}
 	
 	
 	

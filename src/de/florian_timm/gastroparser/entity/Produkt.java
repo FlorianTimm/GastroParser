@@ -2,6 +2,7 @@ package de.florian_timm.gastroparser.entity;
 
 import java.util.ArrayList;
 
+import de.florian_timm.gastroparser.Database;
 import de.florian_timm.gastroparser.ordner.ProduktOrdner;
 
 public class Produkt {
@@ -9,6 +10,7 @@ public class Produkt {
 	private double mwst;
 	private String einheit;
 	private final ArrayList<Artikel> artikel = new ArrayList<Artikel>();
+	private long id;
 	
 	/**
 	 * @param bezeichnung
@@ -20,8 +22,17 @@ public class Produkt {
 		this.setEinheit(einheit);
 		this.setMwst(mwst);
 		ProduktOrdner.getInstanz().addProdukt(this);
+		this.setId(Database.get().insert(this));
 	}
 	
+	public Produkt(long pid, String bezeichnung, String einheit, double mwst) {
+		this.setId(pid);
+		this.setBezeichnung(bezeichnung);
+		this.setEinheit(einheit);
+		this.setMwst(mwst);
+		ProduktOrdner.getInstanz().addProdukt(this);
+	}
+
 	/**
 	 * @param bezeichnung
 	 * @param einheit
@@ -99,6 +110,20 @@ public class Produkt {
 	
 	public double getDurchschnittsPreis () {
 		return getGesamtPreis() / getGesamtMenge();
+	}
+
+	/**
+	 * @return the id
+	 */
+	public long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(long id) {
+		this.id = id;
 	}
 	
 }

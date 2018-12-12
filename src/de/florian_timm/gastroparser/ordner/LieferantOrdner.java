@@ -2,6 +2,7 @@ package de.florian_timm.gastroparser.ordner;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
 import de.florian_timm.gastroparser.entity.Lieferant;
 
 public class LieferantOrdner implements Iterable<Lieferant> {
@@ -44,10 +45,19 @@ public class LieferantOrdner implements Iterable<Lieferant> {
 		return new LieferantIterator(this);
 	}
 
-	public Lieferant getLieferant(int index) {
+	public Lieferant getLieferant(int lieferantId) {
 		// TODO Auto-generated method stub
-		if (index < size()) {
-			return lieferanten.get(index);
+		if (lieferantId < size()) {
+			return lieferanten.get(lieferantId);
+		}
+		return null;
+	}
+	
+	public Lieferant getLieferant(long lieferantDbId) {
+		for (Lieferant lieferant : lieferanten) {
+			if (lieferant.getId() == lieferantDbId) {
+				return lieferant;
+			}
 		}
 		return null;
 	}
