@@ -3,15 +3,22 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7">
 		<attributes>
 			<attribute name="module" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="/home/timm/eclipse-workspace/_lib/fontbox-2.0.12.jar"/>
-	<classpathentry kind="lib" path="/home/timm/eclipse-workspace/_lib/pdfbox-2.0.12.jar"/>
-	<classpathentry kind="lib" path="/home/timm/eclipse-workspace/_lib/pdfbox-app-2.0.12.jar"/>
-	<classpathentry kind="lib" path="/home/timm/eclipse-workspace/_lib/pdfbox-tools-2.0.12.jar"/>
+	<classpathentry kind="src" output="target/classes" path="src">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="/home/timm/eclipse-workspace/_lib/preflight-app-2.0.12.jar"/>
 	<classpathentry kind="lib" path="/home/timm/eclipse-workspace/_lib/xmpbox-2.0.12.jar"/>
 	<classpathentry kind="lib" path="/home/timm/eclipse-workspace/_lib/sqlite-jdbc-3.23.1.jar"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>

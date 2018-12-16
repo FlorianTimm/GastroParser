@@ -37,7 +37,7 @@ public class MetroParser extends Parser {
 
 	final private NumberFormat number = NumberFormat.getInstance(Locale.GERMAN);
 
-	public MetroParser(ParserListener gui, File[] selectedFiles) {
+	public MetroParser(StatusListener gui, File[] selectedFiles) {
 		super(gui, selectedFiles);
 	}
 
@@ -138,8 +138,7 @@ public class MetroParser extends Parser {
 
 						Produkt produkt = Produkt.create(bez, einheit, mwst);
 						Artikel artikel = new Artikel(produkt, inhalt, artnr, ean);
-						Rechnungsposten rp = new Rechnungsposten(rechnung, artikel, menge, preis);
-						posten.add(rp);
+						new Rechnungsposten(rechnung, artikel, menge, preis);
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

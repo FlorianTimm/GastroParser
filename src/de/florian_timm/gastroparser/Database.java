@@ -37,6 +37,17 @@ public class Database {
 		}
 		return db;
 	}
+	
+	public ResultSet execute(String sql) {
+		Statement stmt;
+		try {
+			stmt = conn.createStatement();
+			return stmt.executeQuery(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	private void createNewDatabase() {
 

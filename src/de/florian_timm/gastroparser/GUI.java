@@ -6,7 +6,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.io.File;
 
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -20,12 +20,11 @@ import javax.swing.UIManager;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import de.florian_timm.gastroparser.entity.Rechnungsposten;
 import de.florian_timm.gastroparser.gui.LieferantenTable;
 import de.florian_timm.gastroparser.gui.ProduktTable;
 import de.florian_timm.gastroparser.ordner.Informer;
 
-public class GUI extends JFrame implements ParserListener {
+public class GUI extends JFrame implements StatusListener {
 	private static final long serialVersionUID = 1L;
 
 	public static void main(String[] args) {
@@ -54,6 +53,12 @@ public class GUI extends JFrame implements ParserListener {
 			}
 		});
 		JMenuItem mExport = new JMenuItem("Daten exportieren");
+		mExport.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				export();
+			}
+		});
 		JMenuItem mExit = new JMenuItem("Beenden");
 		mDatei.add(mImport);
 		mDatei.add(mExport);
@@ -95,11 +100,35 @@ public class GUI extends JFrame implements ParserListener {
 		this.setVisible(true);
 	}
 
+	protected void export() {
+		JFileChooser jfc = new JFileChooser();
+		jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		jfc.setAcceptAllFileFilterUsed(false);
+		jfc.setFileFilter(new FileNameExtensionFilter("Excel 2007-2019 (*.xlsx)", "xlsx"));
+		jfc.addChoosableFileFilter(new FileNameExtensionFilter("Excel 97-2003 (*.xls)", "xls"));
+		jfc.addChoosableFileFilter(new FileNameExtensionFilter("OpenDocumentSpreadsheet (*.ods)", "ods"));
+		int returnVal = jfc.showSaveDialog(this);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			String beschreibung = jfc.getFileFilter().getDescription();
+			String endung = beschreibung.substring(beschreibung.indexOf('.'), beschreibung.length()-1);
+			this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			File file = jfc.getSelectedFile();
+			if (!file.getName().contains(endung)) {
+				file = new File(file.getAbsoluteFile() + endung);
+			}
+			jpb.setValue(0);
+			Exporter p = new Exporter(this, file);
+			Thread t = new Thread(p);
+			t.start();	
+		}
+	}
+
 	public void openFolder() {
 
 		JFileChooser jfc = new JFileChooser("/mnt/ssd_daten/GastroParser/Rechnungen/");
 		jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		jfc.setMultiSelectionEnabled(true);
+		jfc.setAcceptAllFileFilterUsed(false);
 		FileFilter filter = new FileNameExtensionFilter("PDF-Dateien (*.pdf)", "pdf");
 		jfc.setFileFilter(filter);
 		int returnVal = jfc.showOpenDialog(this);
@@ -116,7 +145,7 @@ public class GUI extends JFrame implements ParserListener {
 		  this.jpb.setValue(status);
 	}
 
-	public void readyParser(ArrayList<Rechnungsposten> posten) {
+	public void ready() {
 		this.setCursor(Cursor.getDefaultCursor());
 		Informer.get().informListener();
 	}
