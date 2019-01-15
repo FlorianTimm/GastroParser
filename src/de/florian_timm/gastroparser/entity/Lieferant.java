@@ -11,7 +11,8 @@ public class Lieferant {
 	private long id;
 	private String name;
 	private String ustId;
-	private ArrayList<Rechnung> rechnungen;
+	private ArrayList<Rechnung> rechnungen = new ArrayList<Rechnung>();
+	private final ArrayList<Garantiepreis> garantiepreise = new ArrayList<Garantiepreis>();
 	
 	private String regDate = "((0[1-9]|[12]\\d|3[01])\\.(0\\d|1[0-2])\\.[12]\\d{3})\\h(([01]\\d|2[0-4]|):[0-5]\\d)";
 	private int regDatePos = 0;
@@ -29,7 +30,6 @@ public class Lieferant {
 	private Lieferant(String name, String ustId) {
 		this.name = name;
 		this.setUstId(ustId);
-		this.rechnungen = new ArrayList<Rechnung>();
 		this.id = Database.get().insert(this);
 		LieferantOrdner.getInstanz().addLieferant(this);
 	}
@@ -59,7 +59,6 @@ public class Lieferant {
 		this.regRechPosOrder = regRechPosOrder;
 		this.regRechNr = regRechNr;
 		this.regRechNrPos = regRechNrPos;
-		this.rechnungen = new ArrayList<Rechnung>();
 		LieferantOrdner.getInstanz().addLieferant(this);
 	}
 
@@ -226,5 +225,8 @@ public class Lieferant {
 	public void setId(long id) {
 		this.id = id;
 	}
-
+	
+	public void addGarantiePreis(Garantiepreis garantiepreis) {
+		this.garantiepreise.add(garantiepreis);		
+	}
 }

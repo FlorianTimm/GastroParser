@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import org.sqlite.SQLiteConfig;
 
 import de.florian_timm.gastroparser.entity.Artikel;
+import de.florian_timm.gastroparser.entity.Garantiepreis;
 import de.florian_timm.gastroparser.entity.Lieferant;
 import de.florian_timm.gastroparser.entity.Produkt;
 import de.florian_timm.gastroparser.entity.Rechnung;
@@ -333,6 +334,31 @@ public long insert(Produkt produkt) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public long insert(Garantiepreis garantiepreis) {
+		try {
+			String sql = "INSERT INTO garantiepreis (produkt, lieferant, preis, von, bis) VALUES (?,?,?,?,?)";
+			String[] id = { "pid" };
+			PreparedStatement ppstmt = this.conn.prepareStatement(sql, id);
+
+			ppstmt.setLong(1, garantiepreis.getProdukt().getId());
+			ppstmt.setLong(2, garantiepreis.getLieferant().getId());
+			ppstmt.setDouble(3, garantiepreis.getPreis());
+			ppstmt.setString(4, garantiepreis.getVon().toString());
+			ppstmt.setString(5, garantiepreis.getBis().toString());
+			
+			ppstmt.execute();
+			ResultSet rs = ppstmt.getGeneratedKeys();
+
+			if (rs.next()) {
+				return rs.getLong(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return -1;
 	}
 
 }

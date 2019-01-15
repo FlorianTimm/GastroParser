@@ -10,6 +10,7 @@ public class Produkt {
 	private double mwst;
 	private String einheit;
 	private final ArrayList<Artikel> artikel = new ArrayList<Artikel>();
+	private final ArrayList<Garantiepreis> garantiepreise = new ArrayList<Garantiepreis>();
 	private long id;
 	
 	/**
@@ -125,5 +126,8 @@ public class Produkt {
 	public void setId(long id) {
 		this.id = id;
 	}
-	
+
+	public void addGarantiePreis(Garantiepreis garantiepreis) {
+		this.garantiepreise.add(garantiepreis);		
+	}
 }
