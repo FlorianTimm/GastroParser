@@ -32,7 +32,7 @@ public class ProduktTable extends AbstractDataTable {
 
 	@Override
 	protected String[] getColumns() {
-		String[] columns = { "Name", "Gesamtmenge", "Einheit", "Anzahl Posten", "Summe" };
+		String[] columns = { "Name", "Gesamtmenge", "Einheit", "Summe", "Durchschnitt" };
 		return columns;
 	}
 

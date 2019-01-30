@@ -20,6 +20,7 @@ import javax.swing.UIManager;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import de.florian_timm.gastroparser.gui.GarantiePreisTable;
 import de.florian_timm.gastroparser.gui.LieferantenTable;
 import de.florian_timm.gastroparser.gui.ProduktTable;
 import de.florian_timm.gastroparser.ordner.Informer;
@@ -44,6 +45,7 @@ public class GUI extends JFrame implements StatusListener {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JMenuBar menu = new JMenuBar();
+		menu.setFont(menu.getFont().deriveFont(menu.getFont().getSize() + 3));
 		JMenu mDatei = new JMenu("Datei");
 		JMenuItem mImport = new JMenuItem("Rechnung importieren...");
 		mImport.addActionListener(new ActionListener() {
@@ -82,6 +84,25 @@ public class GUI extends JFrame implements StatusListener {
 		});
 		mProdukte.add(mPListe);
 		menu.add(mProdukte);
+		
+		
+		JMenuItem mGPreis = new JMenuItem("GarantiePreise...");
+		mGPreis.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JDialog jd = new JDialog();
+				jd.setTitle("GarantiePreise");
+				Container cp2 = jd.getContentPane();
+				cp2.setLayout(new BorderLayout());
+				GarantiePreisTable tab = new GarantiePreisTable();
+				cp2.add(new JScrollPane(tab), BorderLayout.CENTER);
+				jd.pack();
+				jd.setVisible(true);
+			}
+		});
+		mProdukte.add(mGPreis);
+		
+		
 		this.setJMenuBar(menu);
 		
 		Container cp = this.getContentPane();
@@ -94,7 +115,7 @@ public class GUI extends JFrame implements StatusListener {
 		jpb.setMaximum(100);
 		cp.add(jpb, BorderLayout.SOUTH);
 
-		this.setPreferredSize(new Dimension(300,200));
+		this.setPreferredSize(new Dimension(600,400));
 		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);

@@ -3,7 +3,7 @@ package de.florian_timm.gastroparser.entity;
 import java.time.LocalDate;
 import de.florian_timm.gastroparser.Database;
 
-public class Garantiepreis {
+public class Garantiepreis implements Comparable <Garantiepreis>{
 	private long id;
 	private Produkt produkt;
 	private float preis;
@@ -45,6 +45,18 @@ public class Garantiepreis {
 	}
 
 	
+
+	public Garantiepreis(long id, Produkt produkt, Lieferant lieferant, float preis, LocalDate von,
+			LocalDate bis) {
+		this.id = id;
+		this.produkt = produkt;
+		this.lieferant = lieferant;
+		this.setPreis(preis);
+		this.setVon(von);
+		this.setBis(bis);
+		produkt.addGarantiePreis(this);
+		lieferant.addGarantiePreis(this);
+	}
 
 	/**
 	 * @return the id
@@ -114,6 +126,11 @@ public class Garantiepreis {
 	 */
 	public Lieferant getLieferant() {
 		return lieferant;
+	}
+
+	@Override
+	public int compareTo(Garantiepreis gp) {
+		return this.getBis().compareTo(gp.getBis());
 	}
 
 }

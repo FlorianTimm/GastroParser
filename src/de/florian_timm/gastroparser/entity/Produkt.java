@@ -1,6 +1,7 @@
 package de.florian_timm.gastroparser.entity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import de.florian_timm.gastroparser.Database;
 import de.florian_timm.gastroparser.ordner.ProduktOrdner;
@@ -129,5 +130,13 @@ public class Produkt {
 
 	public void addGarantiePreis(Garantiepreis garantiepreis) {
 		this.garantiepreise.add(garantiepreis);		
+	}
+
+	public Garantiepreis getGarantiePreis() {
+		if (this.garantiepreise.size() > 0) {
+			Collections.sort(this.garantiepreise);
+			return this.garantiepreise.get(0);
+		}
+		return null;
 	}
 }

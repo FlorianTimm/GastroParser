@@ -16,6 +16,8 @@ public abstract class AbstractDataTable extends JTable implements Listener, Mous
 
 	public AbstractDataTable() {
 		super();
+		this.setFont(this.getFont().deriveFont(this.getFont().getSize() + 4));
+		this.setRowHeight(this.getRowHeight() + 8);
 		Informer.get().addListener(this);
 	}
 

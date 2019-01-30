@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.sqlite.SQLiteConfig;
@@ -30,6 +31,7 @@ public class Database {
 		loadProdukt();
 		loadArtikel();
 		loadRechnungsPosten();
+		loadGarantiepreis();
 	}
 
 	public static Database get() {
@@ -38,7 +40,7 @@ public class Database {
 		}
 		return db;
 	}
-	
+
 	public ResultSet execute(String sql) {
 		Statement stmt;
 		try {
@@ -76,20 +78,24 @@ public class Database {
 					+ "datumUhrzeit text,lieferant integer,rechnungsnummer text,"
 					+ "FOREIGN KEY(lieferant) REFERENCES lieferanten(lid));");
 
-			stmt.execute("CREATE TABLE IF NOT EXISTS artikel (" + "aid integer primary key,artikelnr text,"
-					+ "ean long,menge real,produkt integer," + "FOREIGN KEY(produkt) REFERENCES produkte(pid));");
+			stmt.execute("CREATE TABLE IF NOT EXISTS artikel (aid integer primary key,artikelnr text,"
+					+ "ean long,menge real,produkt integer, FOREIGN KEY(produkt) REFERENCES produkte(pid));");
 
 			stmt.execute("CREATE TABLE IF NOT EXISTS rechnungsposten (" + "rpid integer primary key,"
 					+ "artikel integer,menge real,preis real,rechnung integer,"
 					+ "FOREIGN KEY(artikel) REFERENCES artikel(aid),"
 					+ "FOREIGN KEY(rechnung) REFERENCES rechnungen(rid));");
 
+			stmt.execute("CREATE TABLE IF NOT EXISTS garantiepreis (gpid integer primary key,produkt integer,"
+					+ "lieferant interger, preis real, von text, bis text,"
+					+ " FOREIGN KEY(produkt) REFERENCES produkte(pid), " 
+					+ "FOREIGN KEY(lieferant) REFERENCES lieferant(lid));");
+
 		} catch (SQLException | ClassNotFoundException e) {
 			System.out.println(e.getMessage());
 		}
 	}
 
-	
 	public long insert(Rechnungsposten posten) {
 		try {
 			String sql = "INSERT INTO rechnungsposten (artikel, menge, preis, rechnung) VALUES (?,?,?,?)";
@@ -100,7 +106,7 @@ public class Database {
 			ppstmt.setDouble(2, posten.getMenge());
 			ppstmt.setDouble(3, posten.getPreis());
 			ppstmt.setLong(4, posten.getRechnung().getId());
-			
+
 			ppstmt.execute();
 			ResultSet rs = ppstmt.getGeneratedKeys();
 
@@ -113,7 +119,7 @@ public class Database {
 		}
 		return -1;
 	}
-	
+
 	private void loadRechnungsPosten() {
 		try {
 			Statement stmt = conn.createStatement();
@@ -124,10 +130,10 @@ public class Database {
 				double menge = rs.getDouble(3);
 				double preis = rs.getDouble(4);
 				long rechnungId = rs.getLong(5);
-				
+
 				Artikel artikel = Artikel.getArtikel(artikelId);
 				Rechnung rechnung = Rechnung.getRechnung(rechnungId);
-				
+
 				new Rechnungsposten(rpid, artikel, menge, preis, rechnung);
 			}
 		} catch (SQLException e) {
@@ -135,9 +141,7 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
+
 	public long insert(Artikel artikel) {
 		try {
 			String sql = "INSERT INTO artikel (artikelnr,ean,menge,produkt) VALUES (?,?,?,?)";
@@ -148,7 +152,7 @@ public class Database {
 			ppstmt.setLong(2, artikel.getEan());
 			ppstmt.setDouble(3, artikel.getMenge());
 			ppstmt.setLong(4, artikel.getProdukt().getId());
-			
+
 			ppstmt.execute();
 			ResultSet rs = ppstmt.getGeneratedKeys();
 
@@ -161,7 +165,7 @@ public class Database {
 		}
 		return -1;
 	}
-	
+
 	private void loadArtikel() {
 		try {
 			Statement stmt = conn.createStatement();
@@ -172,9 +176,9 @@ public class Database {
 				long ean = rs.getLong(3);
 				double menge = rs.getDouble(4);
 				long produktId = rs.getLong(5);
-				
+
 				Produkt produkt = ProduktOrdner.getInstanz().getProdukt(produktId);
-				
+
 				new Artikel(aid, artikelnr, ean, menge, produkt);
 			}
 		} catch (SQLException e) {
@@ -182,10 +186,8 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
-public long insert(Produkt produkt) {
+
+	public long insert(Produkt produkt) {
 		try {
 			String sql = "INSERT INTO produkte (bezeichnung,einheit,mwst) VALUES (?,?,?)";
 			String[] id = { "pid" };
@@ -194,7 +196,7 @@ public long insert(Produkt produkt) {
 			ppstmt.setString(1, produkt.getBezeichnung());
 			ppstmt.setString(2, produkt.getEinheit());
 			ppstmt.setDouble(3, produkt.getMwst());
-			
+
 			ppstmt.execute();
 			ResultSet rs = ppstmt.getGeneratedKeys();
 
@@ -207,7 +209,7 @@ public long insert(Produkt produkt) {
 		}
 		return -1;
 	}
-	
+
 	private void loadProdukt() {
 		try {
 			Statement stmt = conn.createStatement();
@@ -217,7 +219,7 @@ public long insert(Produkt produkt) {
 				String bezeichnung = rs.getString(2);
 				String einheit = rs.getString(3);
 				double mwst = rs.getDouble(4);
-				
+
 				new Produkt(pid, bezeichnung, einheit, mwst);
 			}
 		} catch (SQLException e) {
@@ -225,11 +227,9 @@ public long insert(Produkt produkt) {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	public long insert(Rechnung rechnung) {
-		
-		
+
 		try {
 			String sql = "INSERT INTO rechnungen (datumUhrzeit,lieferant,rechnungsnummer) VALUES (?,?,?)";
 			String[] id = { "rid" };
@@ -238,7 +238,7 @@ public long insert(Produkt produkt) {
 			ppstmt.setString(1, rechnung.getDatumUhrzeit().toString());
 			ppstmt.setLong(2, rechnung.getLieferant().getId());
 			ppstmt.setString(3, rechnung.getRechnungsnummer());
-			
+
 			ppstmt.execute();
 			ResultSet rs = ppstmt.getGeneratedKeys();
 
@@ -251,7 +251,7 @@ public long insert(Produkt produkt) {
 		}
 		return -1;
 	}
-	
+
 	private void loadRechnungen() {
 		try {
 			Statement stmt = conn.createStatement();
@@ -261,7 +261,7 @@ public long insert(Produkt produkt) {
 				LocalDateTime datumUhrzeit = LocalDateTime.parse(rs.getString(2));
 				Long lieferantId = rs.getLong(3);
 				String rechnungsnummer = rs.getString(4);
-				
+
 				Lieferant lieferant = LieferantOrdner.getInstanz().getLieferant(lieferantId);
 				new Rechnung(rid, datumUhrzeit, lieferant, rechnungsnummer);
 			}
@@ -286,14 +286,14 @@ public long insert(Produkt produkt) {
 			ppstmt.setString(6, lieferant.getRegRechNr());
 			ppstmt.setInt(7, lieferant.getRegRechNrPos());
 			ppstmt.setString(8, lieferant.getRegRechPos());
-			
+
 			int[] rechPosOrder = lieferant.getRegRechPosOrder();
 			String strArray[] = new String[rechPosOrder.length];
 			for (int i = 0; i < rechPosOrder.length; i++)
 				strArray[i] = String.valueOf(rechPosOrder[i]);
 
 			ppstmt.setString(9, String.join(",", strArray));
-			
+
 			ppstmt.execute();
 			ResultSet rs = ppstmt.getGeneratedKeys();
 
@@ -306,7 +306,7 @@ public long insert(Produkt produkt) {
 		}
 		return -1;
 	}
-	
+
 	private void loadLieferanten() {
 		try {
 			Statement stmt = conn.createStatement();
@@ -322,13 +322,13 @@ public long insert(Produkt produkt) {
 				String regDateOrder = rs.getString(6);
 				String regRechNr = rs.getString(7);
 				int regRechNrPos = rs.getInt(8);
-				String regRechPos= rs.getString(9);
+				String regRechPos = rs.getString(9);
 				String[] rRPO = rs.getString(10).split(",");
 				int[] regRechPosOrder = new int[rRPO.length];
 				for (int i = 0; i < rRPO.length; i++)
 					regRechPosOrder[i] = Integer.parseInt(rRPO[i]);
-				new Lieferant(lid, name, ustId, regDate, regDatePos,
-						regDateOrder, regRechPos, regRechPosOrder, regRechNr, regRechNrPos);
+				new Lieferant(lid, name, ustId, regDate, regDatePos, regDateOrder, regRechPos, regRechPosOrder,
+						regRechNr, regRechNrPos);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -347,7 +347,7 @@ public long insert(Produkt produkt) {
 			ppstmt.setDouble(3, garantiepreis.getPreis());
 			ppstmt.setString(4, garantiepreis.getVon().toString());
 			ppstmt.setString(5, garantiepreis.getBis().toString());
-			
+
 			ppstmt.execute();
 			ResultSet rs = ppstmt.getGeneratedKeys();
 
@@ -359,6 +359,28 @@ public long insert(Produkt produkt) {
 			e.printStackTrace();
 		}
 		return -1;
+	}
+	
+	private void loadGarantiepreis() {
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT gpid, produkt, lieferant, "
+					+ "preis, von, bis FROM garantiepreis;");
+			while (rs.next()) {
+				long gpid = rs.getLong(1);
+				long produkt = rs.getLong(2);
+				long lieferant = rs.getLong(3);
+				float preis = rs.getFloat(4);
+				LocalDate von = LocalDate.parse(rs.getString(5));
+				LocalDate bis = LocalDate.parse(rs.getString(6));
+				
+				new Garantiepreis(gpid, ProduktOrdner.getInstanz().getProdukt(produkt), 
+						LieferantOrdner.getInstanz().getLieferant(lieferant), preis, von, bis);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
